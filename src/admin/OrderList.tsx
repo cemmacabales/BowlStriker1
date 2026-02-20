@@ -9,8 +9,8 @@ export function OrderList() {
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
     order.id.toLowerCase().includes(search.toLowerCase()) ||
-    order.customerName.toLowerCase().includes(search.toLowerCase()) ||
-    order.customerEmail.toLowerCase().includes(search.toLowerCase());
+    order.customer_name.toLowerCase().includes(search.toLowerCase()) ||
+    order.customer_email.toLowerCase().includes(search.toLowerCase());
     const matchesStatus =
     statusFilter === 'all' || order.status === statusFilter;
     return matchesSearch && matchesStatus;
@@ -95,10 +95,10 @@ export function OrderList() {
                   </td>
                   <td className="py-4">
                     <div className="font-medium text-white">
-                      {order.customerName}
+                      {order.customer_name}
                     </div>
                     <div className="text-xs text-white/40">
-                      {order.customerEmail}
+                      {order.customer_email}
                     </div>
                   </td>
                   <td className="py-4 text-white/60 text-sm">

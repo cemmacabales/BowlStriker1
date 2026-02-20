@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative h-64 p-6 flex items-center justify-center bg-gradient-to-b from-white/5 to-transparent">
         <div className="absolute inset-0 bg-primary-cyan/5 rounded-full blur-3xl scale-0 group-hover:scale-100 transition-transform duration-700" />
         <img
-          src={product.image}
+          src={product.image_url}
           alt={product.name}
           className="relative z-10 w-full h-full object-contain drop-shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-500" />
 

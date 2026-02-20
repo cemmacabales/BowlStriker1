@@ -42,7 +42,7 @@ export function Cart() {
 
                 <div className="w-24 h-24 bg-white/5 rounded-lg p-2 flex-shrink-0">
                   <img
-                  src={item.image}
+                  src={item.image_url}
                   alt={item.name}
                   className="w-full h-full object-contain" />
 

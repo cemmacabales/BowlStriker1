@@ -56,7 +56,7 @@ export function ProductDetail() {
             <GlassCard className="aspect-square flex items-center justify-center p-12 relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary-cyan/10 to-primary-purple/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <img
-                src={product.image}
+                src={product.image_url}
                 alt={product.name}
                 className="w-full h-full object-contain drop-shadow-2xl animate-float" />
 
@@ -68,7 +68,7 @@ export function ProductDetail() {
                 className="aspect-square p-2 cursor-pointer hover:border-primary-cyan/50 transition-colors">
 
                   <img
-                  src={product.image}
+                  src={product.image_url}
                   alt="View"
                   className="w-full h-full object-contain" />
 
@@ -199,7 +199,7 @@ export function ProductDetail() {
                   className={`flex justify-between p-4 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'}`}>
 
                       <span className="text-white/60">{key}</span>
-                      <span className="font-medium text-white">{value}</span>
+                      <span className="font-medium text-white">{String(value)}</span>
                     </div>
                 )}
                 </div>

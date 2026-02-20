@@ -56,15 +56,15 @@ export function AdminDashboard() {
     {};
     orders.forEach((order) => {
       order.items.forEach((item) => {
-        if (!productCounts[item.productId]) {
-          productCounts[item.productId] = {
+        if (!productCounts[item.product_id]) {
+          productCounts[item.product_id] = {
             name: item.name,
             count: 0,
             revenue: 0
           };
         }
-        productCounts[item.productId].count += item.quantity;
-        productCounts[item.productId].revenue += item.price * item.quantity;
+        productCounts[item.product_id].count += item.quantity;
+        productCounts[item.product_id].revenue += item.price * item.quantity;
       });
     });
     return Object.values(productCounts).
@@ -255,9 +255,9 @@ export function AdminDashboard() {
                     #{order.id}
                   </td>
                   <td className="py-4">
-                    <div className="font-medium">{order.customerName}</div>
+                    <div className="font-medium">{order.customer_name}</div>
                     <div className="text-xs text-white/40">
-                      {order.customerEmail}
+                      {order.customer_email}
                     </div>
                   </td>
                   <td className="py-4 text-white/60 text-sm">

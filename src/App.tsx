@@ -5,6 +5,7 @@ import {
   Route,
   useLocation } from
 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
 import { OrderProvider } from './context/OrderContext';
@@ -55,10 +56,11 @@ function StoreLayout() {
 import { Outlet } from 'react-router-dom';
 export function App() {
   return (
-    <ProductProvider>
-      <OrderProvider>
-        <CartProvider>
-          <Router>
+    <AuthProvider>
+      <ProductProvider>
+        <OrderProvider>
+          <CartProvider>
+            <Router>
             <ScrollToTop />
             <Routes>
               {/* Storefront Routes */}
@@ -93,9 +95,10 @@ export function App() {
                 <Route path="orders" element={<OrderList />} />
               </Route>
             </Routes>
-          </Router>
-        </CartProvider>
-      </OrderProvider>
-    </ProductProvider>);
+            </Router>
+          </CartProvider>
+        </OrderProvider>
+      </ProductProvider>
+    </AuthProvider>);
 
 }
