@@ -3,19 +3,23 @@ import { Send, Sparkles } from 'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { ChatMessage } from '../components/ChatMessage';
 import { GradientButton } from '../components/GradientButton';
+import { useProducts } from '../context/ProductContext';
+import { getBotResponse } from '../utils/chatbotRules';
+
 export function BowlBot() {
+  const { products } = useProducts();
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
-  {
-    id: 1,
-    text: "Hello! I'm BowlBot, your AI bowling assistant. I can help you find the perfect ball, improve your technique, or explain lane conditions. How can I help you today?",
-    isAi: true,
-    timestamp: new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }]
+    {
+      id: 1,
+      text: "Hello! I'm BowlBot, your AI bowling assistant. I can help you find the perfect ball, improve your technique, or explain lane conditions. How can I help you today?",
+      isAi: true,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }]
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -42,17 +46,11 @@ export function BowlBot() {
     setIsTyping(true);
     // Simulate AI response
     setTimeout(() => {
-      const aiResponses = [
-      "Based on your rev rate, I'd recommend a pearl reactive coverstock for those dry lane conditions.",
-      'The Cyber Strike X1 is our top seller for heavy oil patterns. Would you like to see the specs?',
-      'To improve your spare conversion, try flattening your wrist release to reduce hook potential.',
-      'I can definitely help with that! Our catalog has several options in the 14-15lb range.'];
-
-      const randomResponse =
-      aiResponses[Math.floor(Math.random() * aiResponses.length)];
+      // Capture the original input for processing before state is cleared above, wait, it's actually the input var
+      const responseText = getBotResponse(input, products);
       const aiMsg = {
         id: Date.now() + 1,
-        text: randomResponse,
+        text: responseText,
         isAi: true,
         timestamp: new Date().toLocaleTimeString([], {
           hour: '2-digit',
@@ -84,37 +82,37 @@ export function BowlBot() {
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
             {messages.map((msg) =>
-            <ChatMessage
-              key={msg.id}
-              message={msg.text}
-              isAi={msg.isAi}
-              timestamp={msg.timestamp} />
+              <ChatMessage
+                key={msg.id}
+                message={msg.text}
+                isAi={msg.isAi}
+                timestamp={msg.timestamp} />
 
             )}
 
             {isTyping &&
-            <div className="flex gap-4">
+              <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-cyan to-primary-purple flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-white animate-spin" />
                 </div>
                 <div className="px-5 py-3 rounded-2xl rounded-tl-none bg-white/5 border border-white/10 flex items-center gap-1">
                   <div
-                  className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
-                  style={{
-                    animationDelay: '0ms'
-                  }} />
+                    className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
+                    style={{
+                      animationDelay: '0ms'
+                    }} />
 
                   <div
-                  className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
-                  style={{
-                    animationDelay: '150ms'
-                  }} />
+                    className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
+                    style={{
+                      animationDelay: '150ms'
+                    }} />
 
                   <div
-                  className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
-                  style={{
-                    animationDelay: '300ms'
-                  }} />
+                    className="w-2 h-2 bg-white/50 rounded-full animate-bounce"
+                    style={{
+                      animationDelay: '300ms'
+                    }} />
 
                 </div>
               </div>
@@ -146,19 +144,20 @@ export function BowlBot() {
         {/* Suggestions */}
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           {[
-          'Best ball for heavy oil?',
-          'How to improve hook?',
-          'Explain RG and Differential',
-          'Recommend a spare ball'].
-          map((suggestion, i) =>
-          <button
-            key={i}
-            onClick={() => setInput(suggestion)}
-            className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 hover:border-primary-cyan/30 hover:text-primary-cyan transition-all">
+            'Best ball for heavy oil?',
+            'How to improve hook?',
+            'What is a good beginner ball?',
+            'Recommend a spare ball',
+            'Tell me about bowling shoes'].
+            map((suggestion, i) =>
+              <button
+                key={i}
+                onClick={() => setInput(suggestion)}
+                className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 hover:bg-white/10 hover:border-primary-cyan/30 hover:text-primary-cyan transition-all">
 
-              {suggestion}
-            </button>
-          )}
+                {suggestion}
+              </button>
+            )}
         </div>
       </div>
     </div>);
