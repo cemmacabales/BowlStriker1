@@ -3,13 +3,13 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { GridBackground } from '../components/GridBackground';
 import { GlassCard } from '../components/GlassCard';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  ArrowLeft, 
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  ArrowLeft,
   Shield,
-  Loader 
+  Loader
 } from 'lucide-react';
 
 export function AdminLayout() {
@@ -46,7 +46,7 @@ export function AdminLayout() {
   return (
     <div className="min-h-screen bg-black text-white">
       <GridBackground />
-      
+
       {/* Admin Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -83,11 +83,10 @@ export function AdminLayout() {
           <nav className="space-y-2">
             <Link to="/admin">
               <button
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive('/admin')
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin')
                     ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30'
                     : 'bg-white/5 hover:bg-white/10 border border-white/10'
-                }`}
+                  }`}
               >
                 <LayoutDashboard className="w-5 h-5" />
                 <span>Dashboard</span>
@@ -96,11 +95,10 @@ export function AdminLayout() {
 
             <Link to="/admin/products">
               <button
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive('/admin/products') || location.pathname.startsWith('/admin/products')
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/products') || location.pathname.startsWith('/admin/products')
                     ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30'
                     : 'bg-white/5 hover:bg-white/10 border border-white/10'
-                }`}
+                  }`}
               >
                 <Package className="w-5 h-5" />
                 <span>Products</span>
@@ -109,14 +107,25 @@ export function AdminLayout() {
 
             <Link to="/admin/orders">
               <button
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive('/admin/orders')
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/orders')
                     ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30'
                     : 'bg-white/5 hover:bg-white/10 border border-white/10'
-                }`}
+                  }`}
               >
                 <ShoppingCart className="w-5 h-5" />
                 <span>Orders</span>
+              </button>
+            </Link>
+
+            <Link to="/admin/users">
+              <button
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin/users')
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30'
+                    : 'bg-white/5 hover:bg-white/10 border border-white/10'
+                  }`}
+              >
+                <Shield className="w-5 h-5" />
+                <span>Users</span>
               </button>
             </Link>
           </nav>

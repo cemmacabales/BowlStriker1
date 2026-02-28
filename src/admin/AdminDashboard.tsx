@@ -2,20 +2,24 @@ import React, { useMemo } from 'react';
 import {
   BarChart,
   Bar,
+  PieChart,
+  Pie,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Cell } from
-'recharts';
+  Cell,
+  Legend
+} from 'recharts';
 import {
   DollarSign,
   ShoppingBag,
   Package,
   TrendingUp,
-  Calendar } from
-'lucide-react';
+  Calendar
+} from
+  'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { useOrders } from '../context/OrderContext';
 import { useProducts } from '../context/ProductContext';
@@ -35,14 +39,34 @@ export function AdminDashboard() {
       });
       // Calculate revenue for this day
       const dayRevenue = orders.
-      filter((o) => new Date(o.date).toDateString() === date.toDateString()).
-      reduce((sum, o) => sum + o.total, 0);
+        filter((o) => new Date(o.date).toDateString() === date.toDateString()).
+        reduce((sum, o) => sum + o.total, 0);
       data.push({
         name: dateStr,
         revenue: dayRevenue
       });
     }
     return data;
+  }, [orders]);
+
+  // Orders by Status Chart
+  const statusData = useMemo(() => {
+    const counts = { pending: 0, processing: 0, shipped: 0, delivered: 0, cancelled: 0 };
+    orders.forEach(o => counts[o.status]++);
+    return [
+      { name: 'Pending', value: counts.pending, color: '#f59e0b' },
+      { name: 'Processing', value: counts.processing, color: '#3b82f6' },
+      { name: 'Shipped', value: counts.shipped, color: '#8b5cf6' },
+      { name: 'Delivered', value: counts.delivered, color: '#10b981' },
+      { name: 'Cancelled', value: counts.cancelled, color: '#ef4444' }
+    ].filter(s => s.value > 0);
+  }, [orders]);
+
+  // Total items sold
+  const totalItemsSold = useMemo(() => {
+    return orders.reduce((total, order) => {
+      return total + order.items.reduce((itemTotal, item) => itemTotal + item.quantity, 0);
+    }, 0);
   }, [orders]);
   // Top products calculation
   const topProducts = useMemo(() => {
@@ -53,7 +77,7 @@ export function AdminDashboard() {
         count: number;
         revenue: number;
       }> =
-    {};
+      {};
     orders.forEach((order) => {
       order.items.forEach((item) => {
         if (!productCounts[item.product_id]) {
@@ -68,20 +92,20 @@ export function AdminDashboard() {
       });
     });
     return Object.values(productCounts).
-    sort((a, b) => b.count - a.count).
-    slice(0, 5);
+      sort((a, b) => b.count - a.count).
+      slice(0, 5);
   }, [orders]);
   const StatCard = ({ title, value, icon: Icon, trend }: any) =>
-  <GlassCard className="p-6 flex items-start justify-between">
+    <GlassCard className="p-6 flex items-start justify-between">
       <div>
         <p className="text-white/50 text-sm font-medium mb-1">{title}</p>
         <h3 className="text-2xl font-bold font-display">{value}</h3>
         {trend &&
-      <div className="flex items-center gap-1 text-green-400 text-xs mt-2">
+          <div className="flex items-center gap-1 text-green-400 text-xs mt-2">
             <TrendingUp className="w-3 h-3" />
             <span>{trend}</span>
           </div>
-      }
+        }
       </div>
       <div className="p-3 rounded-xl bg-white/5 border border-white/10">
         <Icon className="w-5 h-5 text-primary-cyan" />
@@ -99,29 +123,29 @@ export function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Revenue"
-          value={`$${stats.totalRevenue.toLocaleString(undefined, {
+          value={`₱${stats.totalRevenue.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
           })}`}
           icon={DollarSign}
-          trend="+12.5% from last month" />
+        />
 
         <StatCard
           title="Total Orders"
           value={stats.totalOrders}
           icon={ShoppingBag}
-          trend="+5 new today" />
+        />
+
+        <StatCard
+          title="Total Items Sold"
+          value={totalItemsSold}
+          icon={Package}
+        />
 
         <StatCard
           title="Avg. Order Value"
-          value={`$${stats.averageOrderValue.toFixed(2)}`}
-          icon={Calendar} />
-
-        <StatCard
-          title="Active Products"
-          value={products.length}
-          icon={Package} />
-
+          value={`₱${stats.averageOrderValue.toFixed(2)}`}
+          icon={TrendingUp} />
       </div>
 
       {/* Charts & Tables */}
@@ -156,12 +180,13 @@ export function AdminDashboard() {
                     }}
                     axisLine={false}
                     tickLine={false}
-                    tickFormatter={(value) => `$${value}`} />
+                    tickFormatter={(value) => `₱${value}`} />
 
                   <Tooltip
                     cursor={{
                       fill: 'rgba(255,255,255,0.05)'
                     }}
+                    formatter={(value: number) => [`₱${value.toFixed(2)}`, 'Revenue']}
                     contentStyle={{
                       backgroundColor: '#1a1a1a',
                       border: '1px solid rgba(255,255,255,0.1)',
@@ -171,7 +196,7 @@ export function AdminDashboard() {
 
                   <Bar dataKey="revenue" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry, index) =>
-                    <Cell key={`cell-${index}`} fill="url(#colorGradient)" />
+                      <Cell key={`cell-${index}`} fill="url(#colorGradient)" />
                     )}
                   </Bar>
                   <defs>
@@ -196,15 +221,57 @@ export function AdminDashboard() {
           </GlassCard>
         </div>
 
+        {/* Orders by Status */}
+        <div className="lg:col-span-1">
+          <GlassCard className="p-6 h-[400px] flex flex-col">
+            <h3 className="text-lg font-bold mb-6">Orders by Status</h3>
+            <div className="flex-1 w-full min-h-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={statusData}
+                    cx="50%"
+                    cy="45%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {statusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#1a1a1a',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: '8px',
+                      color: '#fff'
+                    }}
+                  />
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                </PieChart>
+              </ResponsiveContainer>
+              {statusData.length === 0 && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-white/40">No orders yet</p>
+                </div>
+              )}
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8">
         {/* Top Products */}
         <div className="lg:col-span-1">
           <GlassCard className="p-6 h-[400px] flex flex-col">
             <h3 className="text-lg font-bold mb-6">Top Products</h3>
             <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar">
               {topProducts.map((product, i) =>
-              <div
-                key={i}
-                className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
 
                   <div className="flex-1 min-w-0 mr-4">
                     <p className="font-medium truncate">{product.name}</p>
@@ -214,13 +281,13 @@ export function AdminDashboard() {
                   </div>
                   <div className="text-right">
                     <p className="font-bold text-primary-cyan">
-                      ${product.revenue.toFixed(0)}
+                      ₱{product.revenue.toFixed(0)}
                     </p>
                   </div>
                 </div>
               )}
               {topProducts.length === 0 &&
-              <p className="text-white/40 text-center py-10">
+                <p className="text-white/40 text-center py-10">
                   No sales data yet
                 </p>
               }
@@ -247,9 +314,9 @@ export function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {stats.recentOrders.map((order) =>
-              <tr
-                key={order.id}
-                className="group hover:bg-white/5 transition-colors">
+                <tr
+                  key={order.id}
+                  className="group hover:bg-white/5 transition-colors">
 
                   <td className="py-4 font-mono text-sm text-primary-cyan group-hover:text-primary-purple transition-colors">
                     #{order.id}
@@ -263,13 +330,13 @@ export function AdminDashboard() {
                   <td className="py-4 text-white/60 text-sm">
                     {new Date(order.date).toLocaleDateString()}
                   </td>
-                  <td className="py-4 font-bold">${order.total.toFixed(2)}</td>
+                  <td className="py-4 font-bold">₱{order.total.toFixed(2)}</td>
                   <td className="py-4">
                     <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${order.status === 'delivered' ? 'bg-green-500/10 text-green-400 border-green-500/20' : order.status === 'shipped' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : order.status === 'processing' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' : 'bg-white/10 text-white/60 border-white/10'}`}>
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${order.status === 'delivered' ? 'bg-green-500/10 text-green-400 border-green-500/20' : order.status === 'shipped' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : order.status === 'processing' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' : 'bg-white/10 text-white/60 border-white/10'}`}>
 
                       {order.status.charAt(0).toUpperCase() +
-                    order.status.slice(1)}
+                        order.status.slice(1)}
                     </span>
                   </td>
                 </tr>

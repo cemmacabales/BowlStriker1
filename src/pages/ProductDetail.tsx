@@ -7,8 +7,9 @@ import {
   Shield,
   ChevronRight,
   Minus,
-  Plus } from
-'lucide-react';
+  Plus
+} from
+  'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { GradientButton } from '../components/GradientButton';
 import { useCart } from '../context/CartContext';
@@ -63,14 +64,14 @@ export function ProductDetail() {
             </GlassCard>
             <div className="grid grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((i) =>
-              <GlassCard
-                key={i}
-                className="aspect-square p-2 cursor-pointer hover:border-primary-cyan/50 transition-colors">
+                <GlassCard
+                  key={i}
+                  className="aspect-square p-2 cursor-pointer hover:border-primary-cyan/50 transition-colors">
 
                   <img
-                  src={product.image_url}
-                  alt="View"
-                  className="w-full h-full object-contain" />
+                    src={product.image_url}
+                    alt="View"
+                    className="w-full h-full object-contain" />
 
                 </GlassCard>
               )}
@@ -97,7 +98,7 @@ export function ProductDetail() {
                 {product.name}
               </h1>
               <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-primary-purple">
-                ${product.price.toFixed(2)}
+                ₱{product.price.toFixed(2)}
               </p>
             </div>
 
@@ -113,10 +114,10 @@ export function ProductDetail() {
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {weights.map((weight) =>
-                  <button
-                    key={weight}
-                    onClick={() => setSelectedWeight(weight)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedWeight === weight ? 'bg-primary-cyan text-black shadow-lg shadow-cyan-500/20' : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'}`}>
+                    <button
+                      key={weight}
+                      onClick={() => setSelectedWeight(weight)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedWeight === weight ? 'bg-primary-cyan text-black shadow-lg shadow-cyan-500/20' : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'}`}>
 
                       {weight}
                     </button>
@@ -148,8 +149,8 @@ export function ProductDetail() {
                   </div>
                   <div className="text-sm text-white/50">
                     {quantity > 1 ?
-                    `${quantity} items selected` :
-                    '1 item selected'}
+                      `${quantity} items selected` :
+                      '1 item selected'}
                   </div>
                 </div>
               </div>
@@ -161,7 +162,7 @@ export function ProductDetail() {
                   onClick={() => addToCart(product, quantity, selectedWeight)}>
 
                   <ShoppingBag className="w-5 h-5 mr-2" />
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  Add to Cart - ₱{(product.price * quantity).toFixed(2)}
                 </GradientButton>
               </div>
             </div>
@@ -172,7 +173,7 @@ export function ProductDetail() {
                 <Truck className="w-6 h-6 text-primary-cyan mt-1" />
                 <div>
                   <h4 className="font-bold">Free Shipping</h4>
-                  <p className="text-sm text-white/50">On orders over $150</p>
+                  <p className="text-sm text-white/50">On orders over ₱150</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5">
@@ -188,20 +189,20 @@ export function ProductDetail() {
 
             {/* Specs Table */}
             {product.specs &&
-            <div className="mt-8">
+              <div className="mt-8">
                 <h3 className="text-xl font-display font-bold mb-4">
                   Technical Specifications
                 </h3>
                 <div className="rounded-xl border border-white/10 overflow-hidden">
                   {Object.entries(product.specs).map(([key, value], index) =>
-                <div
-                  key={key}
-                  className={`flex justify-between p-4 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'}`}>
+                    <div
+                      key={key}
+                      className={`flex justify-between p-4 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'}`}>
 
                       <span className="text-white/60">{key}</span>
                       <span className="font-medium text-white">{String(value)}</span>
                     </div>
-                )}
+                  )}
                 </div>
               </div>
             }

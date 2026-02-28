@@ -144,16 +144,14 @@ export function Checkout() {
             {steps.map((step) => (
               <div
                 key={step.id}
-                className={`flex flex-col items-center gap-2 bg-[#0D0D0D] px-4 z-10 ${
-                  currentStep >= step.id ? 'text-primary-cyan' : 'text-white/30'
-                }`}
+                className={`flex flex-col items-center gap-2 bg-[#0D0D0D] px-4 z-10 ${currentStep >= step.id ? 'text-primary-cyan' : 'text-white/30'
+                  }`}
               >
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-                    currentStep >= step.id
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${currentStep >= step.id
                       ? 'border-primary-cyan bg-primary-cyan/10 shadow-[0_0_15px_rgba(0,212,255,0.3)]'
                       : 'border-white/10 bg-[#0D0D0D]'
-                  }`}
+                    }`}
                 >
                   {currentStep > step.id ? (
                     <Check className="w-5 h-5" />
@@ -300,7 +298,7 @@ export function Checkout() {
               {currentStep === 3 && (
                 <div className="space-y-6 animate-fade-in">
                   <h2 className="text-2xl font-bold mb-6">Review Order</h2>
-                  
+
                   {/* Items */}
                   <div className="space-y-3 mb-6">
                     {items.map((item) => (

@@ -3,8 +3,9 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation } from
-'react-router-dom';
+  useLocation
+} from
+  'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
@@ -29,6 +30,7 @@ import { AdminDashboard } from './admin/AdminDashboard';
 import { ProductList } from './admin/ProductList';
 import { ProductEditor } from './admin/ProductEditor';
 import { OrderList } from './admin/OrderList';
+import { UserList } from './admin/UserList';
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -61,40 +63,41 @@ export function App() {
         <OrderProvider>
           <CartProvider>
             <Router>
-            <ScrollToTop />
-            <Routes>
-              {/* Storefront Routes */}
-              <Route element={<StoreLayout />}>
-                <Route path="/" element={<Landing />} />
-                <Route path="/catalog" element={<Catalog />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/bowlbot" element={<BowlBot />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route
-                  path="/order-confirmation"
-                  element={<OrderConfirmation />} />
+              <ScrollToTop />
+              <Routes>
+                {/* Storefront Routes */}
+                <Route element={<StoreLayout />}>
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/catalog" element={<Catalog />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/bowlbot" element={<BowlBot />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route
+                    path="/order-confirmation"
+                    element={<OrderConfirmation />} />
 
-                <Route path="/auth" element={<Auth initialMode="login" />} />
-                <Route path="/login" element={<Auth initialMode="login" />} />
-                <Route
-                  path="/register"
-                  element={<Auth initialMode="register" />} />
+                  <Route path="/auth" element={<Auth initialMode="login" />} />
+                  <Route path="/login" element={<Auth initialMode="login" />} />
+                  <Route
+                    path="/register"
+                    element={<Auth initialMode="register" />} />
 
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/order-history" element={<OrderHistory />} />
-                <Route path="/faq" element={<FAQ />} />
-              </Route>
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/order-history" element={<OrderHistory />} />
+                  <Route path="/faq" element={<FAQ />} />
+                </Route>
 
-              {/* Admin Routes */}
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="products" element={<ProductList />} />
-                <Route path="products/new" element={<ProductEditor />} />
-                <Route path="products/edit/:id" element={<ProductEditor />} />
-                <Route path="orders" element={<OrderList />} />
-              </Route>
-            </Routes>
+                {/* Admin Routes */}
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="products" element={<ProductList />} />
+                  <Route path="products/new" element={<ProductEditor />} />
+                  <Route path="products/edit/:id" element={<ProductEditor />} />
+                  <Route path="orders" element={<OrderList />} />
+                  <Route path="users" element={<UserList />} />
+                </Route>
+              </Routes>
             </Router>
           </CartProvider>
         </OrderProvider>

@@ -6,7 +6,7 @@ import { GradientButton } from '../components/GradientButton';
 import { useCart } from '../context/CartContext';
 export function Cart() {
   const { items, removeFromCart, updateQuantity, cartTotal, clearCart } =
-  useCart();
+    useCart();
   if (items.length === 0) {
     return (
       <div className="min-h-screen pt-24 pb-20 px-4 flex items-center justify-center">
@@ -36,15 +36,15 @@ export function Cart() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) =>
-            <GlassCard
-              key={`${item.id}-${item.selectedSize}`}
-              className="p-4 flex gap-4 items-center">
+              <GlassCard
+                key={`${item.id}-${item.selectedSize}`}
+                className="p-4 flex gap-4 items-center">
 
                 <div className="w-24 h-24 bg-white/5 rounded-lg p-2 flex-shrink-0">
                   <img
-                  src={item.image_url}
-                  alt={item.name}
-                  className="w-full h-full object-contain" />
+                    src={item.image_url}
+                    alt={item.name}
+                    className="w-full h-full object-contain" />
 
                 </div>
 
@@ -54,8 +54,8 @@ export function Cart() {
                       {item.name}
                     </h3>
                     <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="text-white/40 hover:text-red-400 transition-colors">
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-white/40 hover:text-red-400 transition-colors">
 
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -68,10 +68,10 @@ export function Cart() {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center bg-white/5 rounded-lg border border-white/10 h-8">
                       <button
-                      onClick={() =>
-                      updateQuantity(item.id, item.quantity - 1)
-                      }
-                      className="px-3 hover:text-primary-cyan transition-colors">
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity - 1)
+                        }
+                        className="px-3 hover:text-primary-cyan transition-colors">
 
                         -
                       </button>
@@ -79,16 +79,16 @@ export function Cart() {
                         {item.quantity}
                       </span>
                       <button
-                      onClick={() =>
-                      updateQuantity(item.id, item.quantity + 1)
-                      }
-                      className="px-3 hover:text-primary-cyan transition-colors">
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                        className="px-3 hover:text-primary-cyan transition-colors">
 
                         +
                       </button>
                     </div>
                     <span className="font-bold text-lg">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₱{(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -111,7 +111,7 @@ export function Cart() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-white/70">
                   <span>Subtotal</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>₱{cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-white/70">
                   <span>Shipping</span>
@@ -119,13 +119,13 @@ export function Cart() {
                 </div>
                 <div className="flex justify-between text-white/70">
                   <span>Tax (Estimated)</span>
-                  <span>${(cartTotal * 0.08).toFixed(2)}</span>
+                  <span>₱{(cartTotal * 0.08).toFixed(2)}</span>
                 </div>
                 <div className="h-px bg-white/10 my-4" />
                 <div className="flex justify-between text-xl font-bold">
                   <span>Total</span>
                   <span className="text-primary-cyan">
-                    ${(cartTotal * 1.08).toFixed(2)}
+                    ₱{(cartTotal * 1.08).toFixed(2)}
                   </span>
                 </div>
               </div>

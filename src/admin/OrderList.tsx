@@ -8,11 +8,11 @@ export function OrderList() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
-    order.id.toLowerCase().includes(search.toLowerCase()) ||
-    order.customer_name.toLowerCase().includes(search.toLowerCase()) ||
-    order.customer_email.toLowerCase().includes(search.toLowerCase());
+      order.id.toLowerCase().includes(search.toLowerCase()) ||
+      order.customer_name.toLowerCase().includes(search.toLowerCase()) ||
+      order.customer_email.toLowerCase().includes(search.toLowerCase());
     const matchesStatus =
-    statusFilter === 'all' || order.status === statusFilter;
+      statusFilter === 'all' || order.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
   const getStatusColor = (status: string) => {
@@ -83,9 +83,9 @@ export function OrderList() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {filteredOrders.map((order) =>
-              <tr
-                key={order.id}
-                className="group hover:bg-white/5 transition-colors">
+                <tr
+                  key={order.id}
+                  className="group hover:bg-white/5 transition-colors">
 
                   <td className="py-4 pl-4 font-mono text-sm text-primary-cyan">
                     #{order.id}
@@ -105,18 +105,18 @@ export function OrderList() {
                     {order.items.length} items
                   </td>
                   <td className="py-4 font-bold text-white">
-                    ${order.total.toFixed(2)}
+                    ₱{order.total.toFixed(2)}
                   </td>
                   <td className="py-4">
                     <select
-                    value={order.status}
-                    onChange={(e) =>
-                    updateOrderStatus(
-                      order.id,
-                      e.target.value as Order['status']
-                    )
-                    }
-                    className={`text-xs font-medium px-2 py-1 rounded-full border appearance-none cursor-pointer outline-none ${getStatusColor(order.status)}`}>
+                      value={order.status}
+                      onChange={(e) =>
+                        updateOrderStatus(
+                          order.id,
+                          e.target.value as Order['status']
+                        )
+                      }
+                      className={`text-xs font-medium px-2 py-1 rounded-full border appearance-none cursor-pointer outline-none ${getStatusColor(order.status)}`}>
 
                       <option value="pending" className="bg-[#1a1a1a]">
                         Pending
@@ -146,7 +146,7 @@ export function OrderList() {
           </table>
 
           {filteredOrders.length === 0 &&
-          <div className="text-center py-12">
+            <div className="text-center py-12">
               <p className="text-white/40">
                 No orders found matching your filters.
               </p>

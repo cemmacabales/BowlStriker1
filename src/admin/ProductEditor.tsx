@@ -10,7 +10,7 @@ export function ProductEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { products, addProduct, updateProduct } = useProducts();
-  
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -19,7 +19,7 @@ export function ProductEditor() {
     category: 'Bowling Balls',
     stock: '0',
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -124,16 +124,16 @@ export function ProductEditor() {
         try {
           // Set a 30-second timeout for upload
           const uploadPromise = uploadImage(imageFile);
-          const timeoutPromise = new Promise<string>((_, reject) => 
+          const timeoutPromise = new Promise<string>((_, reject) =>
             setTimeout(() => reject(new Error('Upload timeout - please try a smaller image or use URL instead')), 30000)
           );
-          
+
           imageUrl = await Promise.race([uploadPromise, timeoutPromise]);
         } catch (uploadError) {
           setUploading(false);
           throw new Error(
-            uploadError instanceof Error 
-              ? uploadError.message 
+            uploadError instanceof Error
+              ? uploadError.message
               : 'Failed to upload image'
           );
         } finally {
@@ -176,7 +176,7 @@ export function ProductEditor() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    
+
     // Update preview if image URL is changed
     if (e.target.name === 'image_url') {
       setImagePreview(e.target.value);
@@ -248,7 +248,9 @@ export function ProductEditor() {
                 required
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
               >
-                <option value="Bowling Balls">Bowling Balls</option>
+                <option value="Performance">Performance</option>
+                <option value="Spare">Spare</option>
+                <option value="Hybrid">Hybrid</option>
                 <option value="Shoes">Shoes</option>
                 <option value="Bags">Bags</option>
                 <option value="Accessories">Accessories</option>
@@ -293,7 +295,7 @@ export function ProductEditor() {
             <label className="block text-sm font-medium">
               Product Image *
             </label>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* File Upload */}
               <div>
@@ -340,7 +342,7 @@ export function ProductEditor() {
                     alt="Preview"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 
+                      (e.target as HTMLImageElement).src =
                         'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23333" width="400" height="300"/%3E%3Ctext fill="%23666" font-family="sans-serif" font-size="24" text-anchor="middle" x="200" y="150"%3EInvalid Image%3C/text%3E%3C/svg%3E';
                     }}
                   />

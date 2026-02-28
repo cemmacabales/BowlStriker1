@@ -155,21 +155,37 @@ CREATE POLICY "Users can insert order items"
   TO authenticated
   WITH CHECK (true);
 
+-- Function to check admin status (bypasses RLS to avoid infinite recursion)
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN AS $$
+DECLARE
+  is_admin_user BOOLEAN;
+BEGIN
+  SELECT is_admin INTO is_admin_user FROM public.user_profiles WHERE id = auth.uid();
+  RETURN COALESCE(is_admin_user, false);
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
 -- User profiles policies
-CREATE POLICY "Users can view their own profile"
+CREATE POLICY "Users can view profiles"
   ON user_profiles FOR SELECT
   TO authenticated
-  USING (id = auth.uid());
+  USING (id = auth.uid() OR public.is_admin());
 
 CREATE POLICY "Users can create their own profile"
   ON user_profiles FOR INSERT
   TO authenticated
   WITH CHECK (id = auth.uid());
 
-CREATE POLICY "Users can update their own profile"
+CREATE POLICY "Users and admins can update profiles"
   ON user_profiles FOR UPDATE
   TO authenticated
-  USING (id = auth.uid());
+  USING (id = auth.uid() OR public.is_admin());
+
+CREATE POLICY "Admins can delete profiles"
+  ON user_profiles FOR DELETE
+  TO authenticated
+  USING (public.is_admin());
 
 -- Function to automatically create user profile on signup
 CREATE OR REPLACE FUNCTION handle_new_user()

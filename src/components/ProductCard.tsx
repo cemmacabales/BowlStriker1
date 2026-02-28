@@ -65,7 +65,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center justify-between mt-auto">
           <span className="text-xl font-bold text-white">
-            ${product.price.toFixed(2)}
+            ₱{product.price.toFixed(2)}
           </span>
           <Link to={`/product/${product.id}`}>
             <span className="text-sm text-white/50 hover:text-white transition-colors">
