@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext';
 import { GlassCard } from '../components/GlassCard';
@@ -6,8 +6,9 @@ import { GradientButton } from '../components/GradientButton';
 import { Plus, Edit2, Trash2, AlertCircle, Loader } from 'lucide-react';
 
 export function ProductList() {
-  const { products, loading, error, deleteProduct } = useProducts();
+  const { products, loading, error, deleteProduct, clearAllProducts } = useProducts();
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [clearing, setClearing] = useState(false);
 
   const handleDelete = async (id: string, name: string) => {
     if (
@@ -26,6 +27,26 @@ export function ProductList() {
       alert('Failed to delete product. Please try again.');
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleClearAll = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to delete ALL products? This action cannot be undone!'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setClearing(true);
+      await clearAllProducts();
+    } catch (err) {
+      console.error('Error clearing products:', err);
+      alert('Failed to clear products. Please try again.');
+    } finally {
+      setClearing(false);
     }
   };
 
@@ -85,12 +106,26 @@ export function ProductList() {
             Manage your product catalog ({products.length} items)
           </p>
         </div>
-        <Link to="/admin/products/new">
-          <GradientButton className="flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Add Product
-          </GradientButton>
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleClearAll}
+            disabled={clearing || products.length === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition-all font-medium disabled:opacity-50"
+          >
+            {clearing ? (
+              <Loader className="w-5 h-5 animate-spin" />
+            ) : (
+              <Trash2 className="w-5 h-5" />
+            )}
+            Clear Catalog
+          </button>
+          <Link to="/admin/products/new">
+            <GradientButton className="flex items-center gap-2">
+              <Plus className="w-5 h-5" />
+              Add Product
+            </GradientButton>
+          </Link>
+        </div>
       </div>
 
       {products.length === 0 ? (

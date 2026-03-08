@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
-import { Search, Filter, ChevronDown, Eye, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
+import { Search, Filter, ChevronDown, Eye, RefreshCw, Trash2, Loader } from 'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { useOrders, Order } from '../context/OrderContext';
 
 export function OrderList() {
-  const { orders, updateOrderStatus, fetchOrders, loading } = useOrders();
+  const { orders, updateOrderStatus, fetchOrders, loading, clearAllOrders } = useOrders();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [clearing, setClearing] = useState(false);
+
+  const handleClearAll = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to delete ALL orders? This action cannot be undone!'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setClearing(true);
+      await clearAllOrders();
+    } catch (err) {
+      console.error('Error clearing orders:', err);
+      alert('Failed to clear orders. Please try again.');
+    } finally {
+      setClearing(false);
+    }
+  };
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
@@ -40,14 +61,28 @@ export function OrderList() {
           <h1 className="text-3xl font-display font-bold mb-2">Orders</h1>
           <p className="text-white/60">Manage customer orders and fulfillment</p>
         </div>
-        <button
-          onClick={() => fetchOrders()}
-          disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-sm disabled:opacity-50"
-        >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleClearAll}
+            disabled={clearing || orders.length === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition-all text-sm font-medium disabled:opacity-50"
+          >
+            {clearing ? (
+              <Loader className="w-4 h-4 animate-spin" />
+            ) : (
+              <Trash2 className="w-4 h-4" />
+            )}
+            Clear History
+          </button>
+          <button
+            onClick={() => fetchOrders()}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-sm disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       <GlassCard className="p-6">

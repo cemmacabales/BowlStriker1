@@ -1,20 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
 import { GlassCard } from '../components/GlassCard';
 import { GradientButton } from '../components/GradientButton';
 import { useAuth } from '../context/AuthContext';
 import { User, Shield, Package, LogOut, ChevronRight } from 'lucide-react';
 
 export function Profile() {
-  const { user, profile, isAdmin, signOut, refreshProfile } = useAuth();
-  const navigate = useNavigate();
-  const [refreshing, setRefreshing] = useState(false);
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    await refreshProfile();
-    setTimeout(() => setRefreshing(false), 1000);
-  };
+  const { user, profile, isAdmin, signOut } = useAuth();
 
   const handleSignOut = async () => {
     try {
@@ -121,7 +113,7 @@ export function Profile() {
                 <ChevronRight className="w-5 h-5 text-white/40" />
               </button>
             </Link>
-            
+
             <Link to="/catalog">
               <button className="w-full flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10">
                 <div className="flex items-center gap-3">
@@ -134,39 +126,7 @@ export function Profile() {
           </div>
         </GlassCard>
 
-        {/* Debug Info */}
-        <GlassCard className="p-6 bg-yellow-500/5 border-yellow-500/20">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">Debug Info</h2>
-            <button
-              onClick={handleRefresh}
-              disabled={refreshing}
-              className="px-4 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 transition-colors text-sm"
-            >
-              {refreshing ? 'Refreshing...' : 'Refresh Profile'}
-            </button>
-          </div>
-          <div className="space-y-2 text-sm font-mono">
-            <div className="flex justify-between">
-              <span className="text-white/60">Has Profile:</span>
-              <span className={profile ? 'text-green-400' : 'text-red-400'}>
-                {profile ? 'YES' : 'NO'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">is_admin value:</span>
-              <span className={profile?.is_admin ? 'text-green-400' : 'text-red-400'}>
-                {String(profile?.is_admin)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">isAdmin computed:</span>
-              <span className={isAdmin ? 'text-green-400' : 'text-red-400'}>
-                {String(isAdmin)}
-              </span>
-            </div>
-          </div>
-        </GlassCard>
+
 
         {/* Account Details */}
         <GlassCard className="p-6">

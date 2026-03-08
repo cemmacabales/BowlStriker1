@@ -1,10 +1,12 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Truck, Cpu } from 'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { GradientButton } from '../components/GradientButton';
 import { ProductCard } from '../components/ProductCard';
 import { useProducts } from '../context/ProductContext';
+import comingSoonImage from '../assets/coming-soon.jpg';
+
 export function Landing() {
   const { products } = useProducts();
   // Get top 3 featured products
@@ -53,7 +55,7 @@ export function Landing() {
 
             <GlassCard className="relative w-full max-w-md aspect-square flex items-center justify-center p-8 animate-float">
               <img
-                src="/coming-soon.jpg"
+                src={comingSoonImage}
                 alt="Coming Soon"
                 className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(0,212,255,0.3)]" />
 
@@ -90,32 +92,32 @@ export function Landing() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-            {
-              icon: Zap,
-              title: 'Reactive Technology',
-              desc: 'Advanced coverstocks that respond to lane conditions instantly.'
-            },
-            {
-              icon: Shield,
-              title: 'Durability Guarantee',
-              desc: 'Space-grade materials built to withstand thousands of impacts.'
-            },
-            {
-              icon: Truck,
-              title: 'Global Shipping',
-              desc: 'Fast, secure delivery to any lane around the world.'
-            }].
-            map((feature, i) =>
-            <GlassCard key={i} className="p-8" hoverEffect>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-cyan/20 to-primary-purple/20 flex items-center justify-center mb-6">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-display font-bold mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-white/60">{feature.desc}</p>
-              </GlassCard>
-            )}
+              {
+                icon: Zap,
+                title: 'Reactive Technology',
+                desc: 'Advanced coverstocks that respond to lane conditions instantly.'
+              },
+              {
+                icon: Shield,
+                title: 'Durability Guarantee',
+                desc: 'Space-grade materials built to withstand thousands of impacts.'
+              },
+              {
+                icon: Truck,
+                title: 'Global Shipping',
+                desc: 'Fast, secure delivery to any lane around the world.'
+              }].
+              map((feature, i) =>
+                <GlassCard key={i} className="p-8" hoverEffect>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-cyan/20 to-primary-purple/20 flex items-center justify-center mb-6">
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-display font-bold mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/60">{feature.desc}</p>
+                </GlassCard>
+              )}
           </div>
         </div>
       </section>
@@ -142,7 +144,7 @@ export function Landing() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {featuredProducts.map((product) =>
-            <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} />
             )}
           </div>
         </div>

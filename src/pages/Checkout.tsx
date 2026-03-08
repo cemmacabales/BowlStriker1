@@ -155,7 +155,7 @@ export function Checkout() {
             </ul>
           </GlassCard>
           <div className="flex flex-col gap-3">
-            <Link to="/orders">
+            <Link to="/order-history">
               <GradientButton className="w-full">View Order History</GradientButton>
             </Link>
             <Link
@@ -179,11 +179,10 @@ export function Checkout() {
             <React.Fragment key={step.id}>
               <div className="flex items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
-                    index <= currentStepIndex
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${index <= currentStepIndex
                       ? 'bg-gradient-to-r from-primary-cyan to-primary-blue text-white'
                       : 'bg-white/10 text-white/40'
-                  }`}
+                    }`}
                 >
                   {index < currentStepIndex ? (
                     <Check className="w-5 h-5" />
@@ -192,18 +191,16 @@ export function Checkout() {
                   )}
                 </div>
                 <span
-                  className={`ml-2 text-sm font-medium hidden sm:inline ${
-                    index <= currentStepIndex ? 'text-white' : 'text-white/40'
-                  }`}
+                  className={`ml-2 text-sm font-medium hidden sm:inline ${index <= currentStepIndex ? 'text-white' : 'text-white/40'
+                    }`}
                 >
                   {step.name}
                 </span>
               </div>
               {index < steps.length - 1 && (
                 <div
-                  className={`w-12 h-px mx-3 ${
-                    index < currentStepIndex ? 'bg-primary-cyan' : 'bg-white/10'
-                  }`}
+                  className={`w-12 h-px mx-3 ${index < currentStepIndex ? 'bg-primary-cyan' : 'bg-white/10'
+                    }`}
                 />
               )}
             </React.Fragment>
@@ -298,11 +295,10 @@ export function Checkout() {
               {paymentMethods.map((method) => (
                 <label
                   key={method.id}
-                  className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
-                    paymentMethod === method.id
+                  className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === method.id
                       ? 'border-primary-cyan bg-primary-cyan/10'
                       : 'border-white/10 hover:border-white/30'
-                  }`}
+                    }`}
                 >
                   <input
                     type="radio"

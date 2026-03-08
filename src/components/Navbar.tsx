@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, User, Menu, X, Search, Shield } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import strikeLogo from '../assets/strike.png';
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { itemCount } = useCart();
   const { isAdmin } = useAuth();
   const location = useLocation();
-  
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Catalog', path: '/catalog' },
@@ -18,7 +19,7 @@ export function Navbar() {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-  
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#0D0D0D]/80 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +27,7 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <img
-              src="/strike.png"
+              src={strikeLogo}
               alt="Bowl Striker Logo"
               className="w-10 h-10 object-contain rounded-xl shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all"
             />
@@ -41,9 +42,8 @@ export function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-primary-cyan ${
-                  isActive(link.path) ? 'text-primary-cyan' : 'text-white/70'
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-primary-cyan ${isActive(link.path) ? 'text-primary-cyan' : 'text-white/70'
+                  }`}
               >
                 {link.name}
               </Link>
@@ -108,17 +108,16 @@ export function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block px-3 py-3 rounded-lg text-base font-medium ${
-                  isActive(link.path)
-                    ? 'bg-white/10 text-primary-cyan'
-                    : 'text-white/70 hover:bg-white/5 hover:text-white'
-                }`}
+                className={`block px-3 py-3 rounded-lg text-base font-medium ${isActive(link.path)
+                  ? 'bg-white/10 text-primary-cyan'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
-            
+
             {isAdmin && (
               <Link
                 to="/admin"
@@ -129,7 +128,7 @@ export function Navbar() {
                 <span className="font-medium">Admin Dashboard</span>
               </Link>
             )}
-            
+
             <Link
               to="/profile"
               className="block px-3 py-3 rounded-lg text-base font-medium text-white/70 hover:bg-white/5 hover:text-white"

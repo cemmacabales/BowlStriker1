@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 
 export interface Product {
@@ -23,6 +23,7 @@ interface ProductContextType {
   deleteProduct: (id: string) => Promise<void>;
   refreshProducts: () => Promise<void>;
   getProductById: (id: string) => Product | undefined;
+  clearAllProducts: () => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -36,14 +37,14 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      
+
       const { data, error: fetchError } = await supabase
         .from('products')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (fetchError) throw fetchError;
-      
+
       setProducts(data || []);
     } catch (err) {
       console.error('Error fetching products:', err);
@@ -112,6 +113,29 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     await fetchProducts();
   };
 
+  const clearAllProducts = async () => {
+    try {
+      console.log('Starting to clear all products');
+
+      // Delete all products using a dummy condition
+      const { error: deleteError } = await supabase
+        .from('products')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+
+      if (deleteError) {
+        console.error('Failed to clear products:', deleteError);
+        throw deleteError;
+      }
+
+      console.log('Successfully cleared products');
+      setProducts([]);
+    } catch (err: any) {
+      console.error('Error clearing products stack:', err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
 
@@ -148,6 +172,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         deleteProduct,
         refreshProducts,
         getProductById,
+        clearAllProducts,
       }}
     >
       {children}

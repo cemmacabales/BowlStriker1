@@ -54,6 +54,7 @@ interface OrderContextType {
     averageOrderValue: number;
     recentOrders: Order[];
   };
+  clearAllOrders: () => Promise<void>;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -223,6 +224,41 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     return orders.find((o) => o.id === id);
   };
 
+  const clearAllOrders = async () => {
+    try {
+      console.log('Starting to clear all orders');
+
+      // Delete all order items first using a dummy condition
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+
+      if (itemsError) {
+        console.error('Failed to clear order items:', itemsError);
+        throw itemsError;
+      }
+      console.log('Successfully cleared order items');
+
+      // Delete all orders using a dummy condition
+      const { error: ordersError } = await supabase
+        .from('orders')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+
+      if (ordersError) {
+        console.error('Failed to clear orders:', ordersError);
+        throw ordersError;
+      }
+
+      console.log('Successfully cleared all orders');
+      setOrders([]);
+    } catch (err: any) {
+      console.error('Error clearing orders stack:', err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
@@ -270,6 +306,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
         fetchOrders,
         getOrderById,
         stats,
+        clearAllOrders,
       }}
     >
       {children}
