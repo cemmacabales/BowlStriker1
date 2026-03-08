@@ -15,7 +15,8 @@ export function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Catalog', path: '/catalog' },
     { name: 'BowlBot AI', path: '/bowlbot' },
-    { name: 'FAQ', path: '/faq' }
+    { name: 'FAQ', path: '/faq' },
+    { name: 'Contact', path: '/contact' }
   ];
 
   const isActive = (path: string) => location.pathname === path;

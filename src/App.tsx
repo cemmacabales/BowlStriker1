@@ -24,6 +24,7 @@ import { Auth } from './pages/Auth';
 import { Profile } from './pages/Profile';
 import { OrderHistory } from './pages/OrderHistory';
 import { FAQ } from './pages/FAQ';
+import { Contact } from './pages/Contact';
 // Admin
 import { AdminLayout } from './admin/AdminLayout';
 import { AdminDashboard } from './admin/AdminDashboard';
@@ -31,6 +32,7 @@ import { ProductList } from './admin/ProductList';
 import { ProductEditor } from './admin/ProductEditor';
 import { OrderList } from './admin/OrderList';
 import { UserList } from './admin/UserList';
+import { MessageList } from './admin/MessageList';
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -86,6 +88,7 @@ export function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/order-history" element={<OrderHistory />} />
                   <Route path="/faq" element={<FAQ />} />
+                  <Route path="/contact" element={<Contact />} />
                 </Route>
 
                 {/* Admin Routes */}
@@ -96,6 +99,7 @@ export function App() {
                   <Route path="products/edit/:id" element={<ProductEditor />} />
                   <Route path="orders" element={<OrderList />} />
                   <Route path="users" element={<UserList />} />
+                  <Route path="messages" element={<MessageList />} />
                 </Route>
               </Routes>
             </Router>
