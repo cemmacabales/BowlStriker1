@@ -122,10 +122,10 @@ export function ProductEditor() {
       if (imageFile) {
         setUploading(true);
         try {
-          // Set a 30-second timeout for upload
+          // Set a 120-second timeout for upload
           const uploadPromise = uploadImage(imageFile);
           const timeoutPromise = new Promise<string>((_, reject) =>
-            setTimeout(() => reject(new Error('Upload timeout - please try a smaller image or use URL instead')), 30000)
+            setTimeout(() => reject(new Error('Upload timeout (120s) - connection might be slow, try a smaller image or URL instead')), 120000)
           );
 
           imageUrl = await Promise.race([uploadPromise, timeoutPromise]);
