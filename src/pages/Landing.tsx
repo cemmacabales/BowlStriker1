@@ -53,8 +53,8 @@ export function Landing() {
 
             <GlassCard className="relative w-full max-w-md aspect-square flex items-center justify-center p-8 animate-float">
               <img
-                src="https://images.unsplash.com/photo-1622646736932-351ce7e605c6?auto=format&fit=crop&q=80&w=800"
-                alt="Futuristic Bowling Ball"
+                src="/coming-soon.jpg"
+                alt="Coming Soon"
                 className="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(0,212,255,0.3)]" />
 
 

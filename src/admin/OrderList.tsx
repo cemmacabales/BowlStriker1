@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Search, Filter, ChevronDown, Eye } from 'lucide-react';
+import { Search, Filter, ChevronDown, Eye, RefreshCw } from 'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { useOrders, Order } from '../context/OrderContext';
+
 export function OrderList() {
-  const { orders, updateOrderStatus } = useOrders();
+  const { orders, updateOrderStatus, fetchOrders, loading } = useOrders();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -15,6 +17,7 @@ export function OrderList() {
       statusFilter === 'all' || order.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'delivered':
@@ -29,11 +32,22 @@ export function OrderList() {
         return 'bg-white/10 text-white/60 border-white/10';
     }
   };
+
   return (
     <div className="space-y-6 animate-fade-in">
-      <div>
-        <h1 className="text-3xl font-display font-bold mb-2">Orders</h1>
-        <p className="text-white/60">Manage customer orders and fulfillment</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-display font-bold mb-2">Orders</h1>
+          <p className="text-white/60">Manage customer orders and fulfillment</p>
+        </div>
+        <button
+          onClick={() => fetchOrders()}
+          disabled={loading}
+          className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all text-sm disabled:opacity-50"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh
+        </button>
       </div>
 
       <GlassCard className="p-6">
@@ -46,16 +60,16 @@ export function OrderList() {
               placeholder="Search orders..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-white/40 focus:outline-none focus:border-primary-cyan/50 transition-all" />
-
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-white/40 focus:outline-none focus:border-primary-cyan/50 transition-all"
+            />
           </div>
           <div className="relative min-w-[200px]">
             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-8 text-white focus:outline-none focus:border-primary-cyan/50 transition-all appearance-none cursor-pointer">
-
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-8 text-white focus:outline-none focus:border-primary-cyan/50 transition-all appearance-none cursor-pointer"
+            >
               <option value="all">All Statuses</option>
               <option value="pending">Pending</option>
               <option value="processing">Processing</option>
@@ -82,13 +96,13 @@ export function OrderList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {filteredOrders.map((order) =>
+              {filteredOrders.map((order) => (
                 <tr
                   key={order.id}
-                  className="group hover:bg-white/5 transition-colors">
-
+                  className="group hover:bg-white/5 transition-colors"
+                >
                   <td className="py-4 pl-4 font-mono text-sm text-primary-cyan">
-                    #{order.id}
+                    #{order.id.substring(0, 8)}
                   </td>
                   <td className="py-4 text-white/60 text-sm">
                     {new Date(order.date).toLocaleDateString()}
@@ -102,7 +116,7 @@ export function OrderList() {
                     </div>
                   </td>
                   <td className="py-4 text-white/60 text-sm">
-                    {order.items.length} items
+                    {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                   </td>
                   <td className="py-4 font-bold text-white">
                     ₱{order.total.toFixed(2)}
@@ -116,8 +130,8 @@ export function OrderList() {
                           e.target.value as Order['status']
                         )
                       }
-                      className={`text-xs font-medium px-2 py-1 rounded-full border appearance-none cursor-pointer outline-none ${getStatusColor(order.status)}`}>
-
+                      className={`text-xs font-medium px-2 py-1 rounded-full border appearance-none cursor-pointer outline-none ${getStatusColor(order.status)}`}
+                    >
                       <option value="pending" className="bg-[#1a1a1a]">
                         Pending
                       </option>
@@ -141,19 +155,19 @@ export function OrderList() {
                     </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
 
-          {filteredOrders.length === 0 &&
+          {filteredOrders.length === 0 && (
             <div className="text-center py-12">
               <p className="text-white/40">
                 No orders found matching your filters.
               </p>
             </div>
-          }
+          )}
         </div>
       </GlassCard>
-    </div>);
-
+    </div>
+  );
 }
