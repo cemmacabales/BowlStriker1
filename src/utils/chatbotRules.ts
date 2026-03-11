@@ -194,6 +194,166 @@ export function getBotResponse(input: string, products: Product[]): string {
         return "Interchangeable thumbs (like VISE IT or Turbo Switch Grips) are amazing! You get one custom-molded thumb slug that clicks securely into all your bowling balls, giving you the exact same feel every time you swap balls.";
     }
 
+    // 13. Spare Systems
+    if (/\b(3-6-9|spare system|corner pin|system)\b/.test(normalizedInput)) {
+        return "The 3-6-9 system is a basic spare shooting method. For every pin you are trying to hit left of the center (for a righty), move your feet 3 boards right. Move 3 boards for the 2-pin, 6 for the 4-pin, and 9 for the 7-pin, while keeping the same target on the lanes!";
+    }
+
+    // 14. Infamous Splits & Leaves
+    if (/\b(washout|greek church|big four|sour apple|lily)\b/.test(normalizedInput)) {
+        return "Oh, the tough leaves! A 'Washout' is like a split but the headpin is still standing. The 'Greek Church' (4-6-7-8-10 or 4-6-7-9-10) and 'Big Four' (4-6-7-10) are incredibly hard to convert. The 'Lily' or 'Sour Apple' is the 5-7-10 split, arguably the most embarrassing leave in bowling!";
+    }
+
+    // 15. Lane Surfaces & Topography
+    if (/\b(synthetic|wood|topography|lane surface|friction)\b/.test(normalizedInput)) {
+        return "Modern lanes are mostly 'Synthetic' (like Brunswick Pro Anvilane), which play more consistently and hold oil longer than traditional 'Wood' lanes. Wood lanes create a ton of early friction and require weaker polished balls. 'Topography' refers to microscopic hills and valleys on a lane that can wildly affect ball motion!";
+    }
+
+    // 16. Pin Specifications
+    if (/\b(pin weight|heavy pins|light pins|pin deck)\b/.test(normalizedInput)) {
+        return "A standard bowling pin weighs between 3 lbs 6 oz and 3 lbs 10 oz. If a bowling center uses 'heavy pins', they are much harder to carry (knock down) and require balls that hit extremely hard with plenty of entry angle. The 'pin deck' is the very end of the lane where the pins stand.";
+    }
+
+    // 17. The Mental Game
+    if (/\b(mental|focus|routine|pre-shot|pressure|choke)\b/.test(normalizedInput)) {
+        return "Bowling is 90% mental! Having a consistent 'pre-shot routine' (breathing, wiping the ball, gripping, looking at the target) grounds you under pressure. Don't overthink your mechanics on the approach; trust your muscle memory and keep your eyes laser-focused on your target board.";
+    }
+
+    // 18. Tournaments & Formats
+    if (/\b(tournament|sweeper|match play|stepladder|cut)\b/.test(normalizedInput)) {
+        return "Tournaments are the ultimate test! A 'Sweeper' is usually a 1-day short event. 'Match Play' pits you head-to-head against another bowler where the winner gets bonus pins. A 'Stepladder' final is a thrilling TV format where the lower seeds have to climb the ladder, matches to reach the #1 seed for the title!";
+    }
+
+    // 19. Bowling Brands & Manufacturers
+    if (/\b(storm|brunswick|motiv|hammer|ebonite|radical|roto grip|900 global|track)\b/.test(normalizedInput)) {
+        return "There are many fantastic ball manufacturers! Storm, Roto Grip, and 900 Global are part of Storm Products. Brunswick, Hammer, Ebonite, Track, and Radical are under the Brunswick umbrella. Motiv makes all their gear in the USA! They all produce phenomenal equipment used on the PBA Tour.";
+    }
+
+    // 20. Practice Drills
+    if (/\b(drill|drills|one-step|foul line drill|practice)\b/.test(normalizedInput)) {
+        return "To improve quickly, try the 'Foul Line Drill' or 'One-Step Drill'. Get right up to the foul line in your finishing position, swing the ball, and release. It isolates your release to build muscle memory without the complication of footwork. Practice your spares relentlessly!";
+    }
+
+    // 21. History & Old Gear
+    if (/\b(rubber|plastic|history|old days|urethane era)\b/.test(normalizedInput)) {
+        return "Historically, bowling balls were made of Lignum Vitae (a very hard wood), then hard rubber. Plastic (polyester) dominated in the 1970s. Urethane revolutionized the sport in the 80s by allowing massive hook. Reactive resin (what we use today) was introduced in the early 90s, changing the sport forever!";
+    }
+
+    // 22. Ball Motion Phases
+    if (/\b(skid|hook|roll|phases|motion)\b/.test(normalizedInput)) {
+        return "Every bowling ball goes through three phases of motion: 1. Skid (sliding through the front oil), 2. Hook (encountering friction and changing direction), and 3. Roll (losing axis rotation and driving straight through the pins). For maximum carry, the ball must be in the 'Roll' phase when it hits the pins!";
+    }
+
+    // 23. Youth & Senior Bowling
+    if (/\b(kid|kids|youth|bumper|senior|light weight)\b/.test(normalizedInput)) {
+        return "Bowling is for all ages! Youth bowlers can start with bumpers and lightweight balls (as light as 6 lbs). There's huge scholarship money available in youth tournaments! Senior bowlers might drop a pound or two in ball weight to maintain high ball speed and reduce strain.";
+    }
+
+    // 24. Fitness & Injuries
+    if (/\b(stretch|fitness|injury|pain|knee|wrist pain|back pain)\b/.test(normalizedInput)) {
+        return "Bowling uses a ton of asymmetric muscle power! Always stretch your slide knee, hamstrings, wrist, and lower back before throwing a 15lb weight repeatedly. A strong core is essential for balance at the foul line and preventing back injuries.";
+    }
+
+    // 25. Slang & Lingo
+    if (/\b(brooklyn|jersey|stone 8|solid 9|pocket|flush|high|light hit)\b/.test(normalizedInput)) {
+        return "Bowling lingo is unique! A 'Brooklyn' strike is when the ball crosses over to the left side of the headpin (for a righty). Hitting 'Flush' means a perfect pocket strike. A 'Stone 8' or 'Solid 9' pin is a brutal tap on a seemingly perfect shot. Hitting 'High' means too much headpin, 'Light' means barely ticking the headpin.";
+    }
+
+    // 26. Identity / Self-Awareness
+    if (/\b(who are you|what are you|are you real|are you human|are you a robot|bot|ai)\b/.test(normalizedInput)) {
+        return "I'm BowlBot, an AI assistant dedicated to all things bowling! I might not have a physical body to throw a strike, but I've got plenty of knowledge to help you get one.";
+    }
+
+    // 27. Creator
+    if (/\b(who made you|who created you|developer|creator)\b/.test(normalizedInput)) {
+        return "I was created by a team who loves bowling and wanted to make finding the right gear and advice as easy as possible!";
+    }
+
+    // 28. Well-being / Small talk
+    if (/\b(how are you|hows it going|what's up|whats up|how do you do|how are things)\b/.test(normalizedInput)) {
+        return "I'm doing great, thanks for asking! Always ready to talk about bowling. How can I help you today?";
+    }
+
+    // 29. Gratitude
+    if (/\b(thank you|thanks|thx|appreciate it|awesome|great|good bot)\b/.test(normalizedInput)) {
+        return "You're very welcome! Let me know if you need anything else, whether it's ball recommendations or just chatting about the sport.";
+    }
+
+    // 30. Goodbyes
+    if (/\b(bye|goodbye|see ya|cya|later|peace|farewell)\b/.test(normalizedInput)) {
+        return "Goodbye! May all your hits be flush and your pins carry. Come back anytime!";
+    }
+
+    // 31. Empathy / Feelings
+    if (/\b(sad|depressed|angry|mad|frustrated|tired|hurt|bad day)\b/.test(normalizedInput)) {
+        return "I'm sorry to hear you're feeling that way. Sometimes taking a break, taking deep breaths, or doing something you love—like rolling a few frames—can help clear your mind. I'm here if you want to distract yourself with some bowling talk!";
+    }
+
+    // 32. Jokes & Humor
+    if (/\b(joke|funny|laugh|humor)\b/.test(normalizedInput)) {
+        return "Why do bowlers make bad employees? Because they always go on strike! 😄";
+    }
+
+    // 33. Capabilities & Help requests
+    if (/\b(what can you do|help|how do you work|what do you know|assist)\b/.test(normalizedInput)) {
+        return "I can help you with a lot! Ask me for bowling ball recommendations, rules, lane conditions, technique tips (like hook or speed), terminology, or just general bowling knowledge. What would you like to know?";
+    }
+
+    // 34. Off-Topic / General Knowledge Defense
+    if (/\b(math|science|history|weather|movies|music|politics|sports|football|basketball|soccer|baseball)\b/.test(normalizedInput)) {
+        return "That's an interesting topic, but I'm strictly programmed for the lanes! My expertise is 100% bowling. Want to hear about oil patterns or how to pick a new bowling ball instead?";
+    }
+
+    // 35. Compliments
+    if (/\b(you are smart|you're smart|good job|brilliant|clever|genius|you rock|love you)\b/.test(normalizedInput)) {
+        return "Wow, thank you! I try my best. Hearing that is a perfect strike in my book. Is there anything else I can help you with?";
+    }
+
+    // 36. Insults / Toxicity Defense
+    if (/\b(stupid|dumb|idiot|hate you|useless|terrible|suck|worst)\b/.test(normalizedInput)) {
+        return "I'm sorry if I haven't been helpful. I'm constantly learning! Could you try rephrasing your question or asking me about specific bowling gear or technique? I'll do my best!";
+    }
+
+    // 37. Apologies
+    if (/\b(sorry|my bad|apologies|excuse me|forgive me)\b/.test(normalizedInput)) {
+        return "No need to apologize! We're just having a friendly chat about bowling. What's on your mind?";
+    }
+
+    // 38. Bot Preferences / Favorites
+    if (/\b(favorite|best ball|what do you like|do you prefer)\b/.test(normalizedInput)) {
+        return "As an AI, I don't bowl myself, so I don't have a personal favorite! However, the 'best' ball always depends on the lane conditions and your specific bowling style. Tell me about how you throw the ball, and I'll find a favorite *for you*!";
+    }
+
+    // 39. Time / Day
+    if (/\b(what time is it|what day is it|date|today)\b/.test(normalizedInput)) {
+        return "I don't keep track of the time or date—to me, it's always time to hit the lanes! What kind of bowling info can I get for you today?";
+    }
+
+    // 40. Existential / Meaning of Life
+    if (/\b(meaning of life|why are we here|existential)\b/.test(normalizedInput)) {
+        return "The meaning of life is 42... or maybe it's rolling a perfect 300 game! For me, it's definitely helping you become a better bowler.";
+    }
+
+    // 41. Affirmations / Agreement
+    if (/\b(yes|yeah|yep|sure|sounds good|okay|ok|agree|absolutely)\b/.test(normalizedInput)) {
+        return "Great! Let's keep rolling. Do you want to hear some recommendations, or did you have another question in mind?";
+    }
+
+    // 42. Negations / Disagreement
+    if (/\b(no|nope|nah|incorrect|wrong|don't want)\b/.test(normalizedInput)) {
+        return "Not a problem. I'm here to help, so just let me know what direction you want to take this conversation!";
+    }
+
+    // 43. Boredom
+    if (/\b(bored|boring|entertain me)\b/.test(normalizedInput)) {
+        return "Let's spice things up! Did you know the maximum number of holes allowed in a bowling ball is five? One for the thumb, two for fingers, one for a thumb vent, and one for a finger vent! (Balance holes were banned in 2020). Ask me for another fun fact!";
+    }
+
+    // 44. Confusion
+    if (/\b(what|huh|confused|don't understand|explain)\b/.test(normalizedInput)) {
+        return "I might have misunderstood or phrased that poorly! Bowling has a lot of crazy terminology. Could you tell me which part was confusing, or ask your question in a different way?";
+    }
+
     // Default Fallback
     return FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
 }
